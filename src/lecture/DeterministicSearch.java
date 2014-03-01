@@ -1,4 +1,4 @@
-package arrays;
+package lecture;
 
 public class DeterministicSearch 
 {

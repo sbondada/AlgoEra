@@ -1,6 +1,6 @@
-package arrays;
+package lecture;
 
-public class MergeSort 
+public class CountingInvertion 
 {
 	public void printArray(int[] sortedArray )
 	{
@@ -11,7 +11,7 @@ public class MergeSort
 		}
 		System.out.println();
 	}
-	public int[] merge(int[] leftArray,int[] rightArray)
+	public int[] countInversion(int[] leftArray,int[] rightArray,int[] count)  
 	{
 		printArray(leftArray);
 		printArray(rightArray);
@@ -31,6 +31,7 @@ public class MergeSort
 			    mergedArray[inc]=rightArray[j];
 				inc++;
 				j++;
+				count[0]=count[0]+(leftArray.length-i);
 			}
 		}
 		//then based which one ends the other array is copied completely into a new merged array
@@ -55,15 +56,15 @@ public class MergeSort
 			return mergedArray;
 		}
 	}
-	public int[] sort(int[] array,int start,int end)
+	public int[] countsort(int[] array,int start,int end,int[] count)
 	{
 		if(start!=end)
 		{
                 int n = (start+end)/2;
                 System.out.println("start "+start+" end "+end+" n "+n);
-                int[] leftSubArray=sort(array, start, n);
-                int[] rightSubArray=sort(array,n+1,end);
-                int[] mergedArray=merge(leftSubArray,rightSubArray);
+                int[] leftSubArray=countsort(array, start, n,count);
+                int[] rightSubArray=countsort(array,n+1,end,count);
+                int[] mergedArray=countInversion(leftSubArray,rightSubArray,count);
                 System.out.println("merged length "+mergedArray.length);
                 return mergedArray;
 		}
@@ -77,9 +78,11 @@ public class MergeSort
 	}
 	public static void main(String args[])
 	{
-		int[] array={1,3,5,4,2,1,2,7,8};
-		MergeSort ms = new MergeSort();
-		int[] sortedArray=ms.sort(array, 0, array.length-1);
-		ms.printArray(sortedArray);
+		int[] array={1,3,5,4,2};
+		CountingInvertion ci=new CountingInvertion();
+		int[] count={0};
+		int[] sortedArray=ci.countsort(array, 0, array.length-1,count);
+		ci.printArray(sortedArray);
+		System.out.println("the inversions are "+count[0]);
 	}
 }

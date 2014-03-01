@@ -1,4 +1,4 @@
-package arrays;
+package lecture;
 
 //the whole code only works for square matrix which can further be reduced 4 smaller square matrix size
 // to accept all square matrices we need to make the matix dividble by adding extra zeros in front of the
