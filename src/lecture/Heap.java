@@ -2,6 +2,12 @@ package lecture;
 
 import java.util.ArrayList;
 
+// points to remember.
+//since we have implemented heap in an arraylist so swapping values are not possible unless we remove and add the new value
+// in the list. so we need to keep in mind that the when you remove the index value changes so implement the heap remembering 
+//that fact.
+// the only efficient way to implement heap is like this if we try to construct a tree then searching the spot to insert is going
+// to take o(n) time.
 public class Heap 
 {
 	public ArrayList<Integer> heapstruct;
@@ -25,10 +31,14 @@ public class Heap
 		{
 			parent=index/2;
 		}
+//        this.printHeap();
+//        System.out.println("parent "+parent);
 		while(this.heapstruct.get(index)<this.heapstruct.get(parent))
 		{
 				int temp=this.heapstruct.get(index);
 				this.heapstruct.remove(index);
+//				System.out.println("insert node");
+//				this.printHeap();
 				this.heapstruct.add(index,this.heapstruct.get(parent));
 				this.heapstruct.remove(parent);
 				this.heapstruct.add(parent,temp);
@@ -45,42 +55,61 @@ public class Heap
 	}
 	public int extractMin() 
 	{
-		int minindex=0;
-		int min=this.heapstruct.get(minindex);
-		this.heapstruct.remove(minindex);
-		int index=this.heapstruct.size()-1;
-		this.heapstruct.add(minindex,this.heapstruct.get(index));
-		this.heapstruct.remove(index);
-        int leftchild=2*minindex+1;
-        int rightchild=2*minindex+2;
-		while(this.heapstruct.get(minindex)>this.heapstruct.get(rightchild) || this.heapstruct.get(minindex)>this.heapstruct.get(leftchild))
-		{
-			int minchild=-1;
-			if(rightchild!=-1 && this.heapstruct.get(rightchild)>this.heapstruct.get(leftchild))
-			{
-				minchild=leftchild;
-			}
-			else
-			{
-				minchild=rightchild;
-			}
-				int temp=this.heapstruct.get(minindex);
-				this.heapstruct.remove(minindex);
-				this.heapstruct.add(minindex,this.heapstruct.get(minchild));
-				this.heapstruct.remove(minchild);
-				this.heapstruct.add(minchild,temp);
-				minindex=minchild;
-                leftchild=2*minindex+1;
-                rightchild=2*minindex+2;
-                if(leftchild>=this.heapstruct.size())
+		int parent=0;
+		int min=this.heapstruct.get(parent);
+		this.heapstruct.remove(parent);
+		this.heapstruct.add(parent,this.heapstruct.get(this.heapstruct.size()-1));
+		this.heapstruct.remove(this.heapstruct.size()-1);
+        int leftchild=2*parent+1;
+        if(leftchild>(this.heapstruct.size()-1))
+        {
+        	leftchild=-1;
+        }
+        int rightchild=2*parent+2;
+        if(rightchild>(this.heapstruct.size()-1))
+        {
+        	rightchild=-1;
+        }
+        int minchild=-1;
+        while(!(leftchild==-1 && rightchild==-1))
+        {
+        	if(rightchild==-1)
+        	{
+        		minchild=leftchild;
+        	}
+        	else if (this.heapstruct.get(rightchild)<this.heapstruct.get(leftchild))
+        	{
+        		minchild=rightchild;
+        	}
+        	else
+        	{
+        		minchild=leftchild;
+        	}
+        	
+        	if(this.heapstruct.get(parent)>this.heapstruct.get(minchild))
+        	{
+        		int temp=this.heapstruct.get(parent);
+        		this.heapstruct.remove(parent);
+        		this.heapstruct.add(parent,this.heapstruct.get(minchild-1));
+        		this.heapstruct.remove(minchild);
+        		this.heapstruct.add(minchild,temp);
+        		parent=minchild;
+                leftchild=2*parent+1;
+                if(leftchild>(this.heapstruct.size()-1))
                 {
-                	break;
+                        leftchild=-1;
                 }
-                if(rightchild>=this.heapstruct.size())
+                rightchild=2*parent+2;
+                if(rightchild>(this.heapstruct.size()-1))
                 {
-                	rightchild=-1;
-                }
-		}
+                        rightchild=-1;
+                }	
+        	}
+        	else
+        	{
+        		break;
+        	}
+        }
 		return min;
 	}
 	public void printHeap()
