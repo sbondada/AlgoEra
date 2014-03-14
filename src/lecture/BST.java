@@ -127,6 +127,49 @@ public class BST
 			return -1;
 		}
 	}
+	public int select(BinarySearchTree tree,int pos)
+	{
+		Node loc=tree.root;
+		if(pos<loc.size)
+		{
+                while(true)
+                {
+                	//if there is no nodes then we have already reached the desired leaf node
+                	if(loc.left==null && loc.right==null && pos==loc.size)
+                	{
+                		return loc.val;
+                	}
+                	//if there is no left node
+                	else if(loc.left!=null && pos==(loc.left.size+1))
+                    {
+                    	System.out.println("help1");
+                        return loc.val;
+                    }
+                    //if there is no right node
+                    else if(loc.right!=null && pos==(loc.size-loc.right.size))
+                    {
+                    	System.out.println("help2");
+                    	return loc.val;
+                    }
+                	if(loc.left!=null && pos<loc.left.size+1)
+                	{
+                    	System.out.println("help3");
+                		loc=loc.left;
+                	}
+                	else if(loc.right!=null && pos>(loc.size-loc.right.size))
+                	{
+                    	System.out.println("help4");
+                		pos=pos-(loc.size-loc.right.size);
+                		loc=loc.right;
+                	}
+                }
+		}
+		else
+		{
+			System.out.println("enter proper pos value");
+			return -1;
+		}
+	}
 	public int getPred(BinarySearchTree tree,int num)
 	{
 		Node loc=getNode(tree.root,num);
@@ -183,8 +226,9 @@ public class BST
 		tree.addNode(5);
 		tree.addNode(7);
 		tree.addNode(11);
-		tree.printTree("DFS");
-		System.out.println(bs.getPred(tree, 1));
-		System.out.println(bs.getMinOrMax(tree, "max"));
+//		tree.printTree("DFS");
+//		System.out.println(bs.getPred(tree, 1));
+//		System.out.println(bs.getMinOrMax(tree, "max"));
+		System.out.println(bs.select(tree, 5));
 	}
 }
